@@ -60,7 +60,7 @@ int __attribute((OS_main)) main()
 	char addr;
 
 	init();
-	
+
 	while(1)
 	{
 		// first byte is what todo
