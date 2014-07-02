@@ -1,6 +1,7 @@
 #include <iostream>
 #include <boost/asio.hpp>
 #include <cstdlib>
+#include <string>
 
 #include <iomanip>
 #include "serial.h"
@@ -9,18 +10,20 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	CSerialPortSettings ps("/dev/ttyUSB1", SP_B19200);
-	CSerialPort port(ps);
-
-	if( argc < 4 )
+	if( argc < 5 )
 	{
-		cerr << "usage: " << argv[0] << " what address value" << endl;
+		cerr << "usage: " << argv[0] << " USBX what address value" << endl;
 		return 0;
 	}
+	string device("/dev/tty");
+	device.append(argv[1]);
+	CSerialPortSettings ps(device, SP_B19200);
+	CSerialPort port(ps);
 
-	int what = atoi(argv[1]);
-	char address = strtol(argv[2], NULL, 16);
-	int data = strtol(argv[3], NULL, 16);
+
+	int what = atoi(argv[2]);
+	char address = strtol(argv[3], NULL, 16);
+	int data = strtol(argv[4], NULL, 16);
 
 	char buff[6];
 
@@ -44,6 +47,5 @@ int main(int argc, char **argv)
 		port.Send(buff, 4);
 	}
 	
-	cout << endl;
 	return 0;
 }
