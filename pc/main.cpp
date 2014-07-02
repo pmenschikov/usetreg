@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <string>
 
+#include <unistd.h>
+
 #include <iomanip>
 #include "serial.h"
 
@@ -46,6 +48,37 @@ int main(int argc, char **argv)
 
 		port.Send(buff, 4);
 	}
-	
+	else if( what == 2 )
+	{
+		// get 8 bit register
+		port.Send(buff, 2);
+		usleep(100000);
+		int n = port.Recv(buff,1);
+		if( n == 1)
+		{
+			cout << "recv: " << hex << uppercase<< (unsigned int)(unsigned char)(buff[0]) << endl;
+		}
+		else
+		{
+			cerr << "no recv from device" << endl;
+		}
+	}
+	else if( what == 3 )
+	{
+		// get 16 bit register
+		port.Send(buff, 2);
+		usleep(100000);
+		int n = port.Recv(buff,2);
+		cout << "recv: ";
+		if( n == 2)
+		{
+			cout << hex << setw(4) << setfill('0') << uppercase << *(unsigned short*)(&buff[0]) << ' ';
+		}
+		else
+		{
+			cerr << "no recv from device " << n;
+		}
+		cout << endl;
+	}
 	return 0;
 }
