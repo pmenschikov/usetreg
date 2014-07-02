@@ -1,0 +1,9 @@
+mcu/.dep
+mcu/main.lst
+mcu/usetreg.eep
+mcu/usetreg.elf
+mcu/usetreg.hex
+mcu/usetreg.lss
+mcu/usetreg.map
+mcu/usetreg.sym
+pc/usetreg
