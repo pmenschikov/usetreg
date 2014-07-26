@@ -69,11 +69,30 @@ CRegister8::CRegister8(const std::string &name,
 	CRegister(name, addr)
 {}
 
+Data8Bits CRegister8::value() const
+{
+	return static_cast<Data8Bits>(m_value);
+}
+
+void CRegister8::set_value(Data8Bits v)
+{
+	m_value = static_cast<RawData>(v);
+}
 
 CRegister16::CRegister16(const std::string &name,
 		Address addr):
 	CRegister(name, addr)
 {}
+
+Data16Bits CRegister16::value() const
+{
+	return static_cast<Data16Bits>(m_value);
+}
+
+void CRegister16::set_value(Data16Bits v)
+{
+	m_value = static_cast<RawData>(v);
+}
 
 CRegisterBit::CRegisterBit():
 	m_name("default name"),

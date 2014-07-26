@@ -69,6 +69,9 @@ class CRegister8: public CRegister
 		CRegister8(const std::string &name,
 		           Address addr);
 
+		Data8Bits value() const;
+		void set_value(Data8Bits v);
+
 };
 
 class CRegister16: public CRegister
@@ -77,6 +80,8 @@ class CRegister16: public CRegister
 		CRegister16(const std::string &name,
 		            Address addr);
 
+		Data16Bits value() const;
+		void set_value(Data16Bits v);
 };
 
 
