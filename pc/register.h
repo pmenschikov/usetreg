@@ -2,6 +2,7 @@
 #define __register_h__
 
 #include <string>
+#include <map>
 
 typedef unsigned int BitNum;
 typedef unsigned char Data8Bits;
@@ -22,9 +23,10 @@ enum Bits
 class CRegisterBit
 {
 	public:
+		CRegisterBit();
 		CRegisterBit(const std::string &name,
 				Bits bn);
-		std::string& name() const;
+		const std::string& name() const;
 	private:
 		std::string m_name;
 		Bits m_bitnum;
@@ -34,8 +36,13 @@ class CRegister
 {
 	public:
 		typedef unsigned int RawData;
+		typedef unsigned int Address;
+		
 	public:
 		CRegister(const std::string &name);
+		CRegister(const std::string &name, Address&);
+
+		bool add_bit_def(CRegisterBit);
 
 		bool set_bit(BitNum bit);
 		bool clr_bit(BitNum bit);
@@ -44,29 +51,31 @@ class CRegister
 		std::string name() const;
 
 	protected:
-		explicit CRegister(const std::string &name,
-				RawData data = 0);
+		CRegisterBit& get_reg(const std::string&);
+
+	protected:
+		typedef std::map<std::string, CRegisterBit> RegisterBits;
 
 	protected:
 		std::string m_name;
 		RawData m_value;
+		Address m_address;
+		RegisterBits m_bits;
 };
 
 class CRegister8: public CRegister
 {
 	public:
-		CRegister8(const std::string &name);
 		CRegister8(const std::string &name,
-		              const Data8Bits v);
+		           Address addr);
 
 };
 
 class CRegister16: public CRegister
 {
 	public:
-		CRegister16(const std::string &name);
 		CRegister16(const std::string &name,
-		              const Data16Bits v);
+		            Address addr);
 
 };
 

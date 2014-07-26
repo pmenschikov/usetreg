@@ -1,10 +1,19 @@
 #include "register.h"
 
+#include "exceptions.h"
+
 #define _BV(n) (1<<(n))
 
 
 CRegister::CRegister(const std::string &name):
-	m_name(name)
+	m_name(name),
+	m_address(0x00)
+{}
+
+CRegister::CRegister(const std::string &name,
+		             Address& addr):
+	m_name(name),
+	m_address(addr)
 {}
 
 std::string CRegister::name() const
@@ -12,11 +21,27 @@ std::string CRegister::name() const
 	return m_name;
 }
 
-CRegister::CRegister(const std::string &name,
-		RawData data):
-	m_name(name),
-	m_value(data)
-{}
+bool CRegister::add_bit_def(CRegisterBit bit)
+{
+	if( m_bits.find(bit.name()) != m_bits.end() )
+	{
+		throw EBitAlreadyDefined(bit.name());
+	}
+
+	m_bits[bit.name()] = bit;
+	return true;
+}
+
+CRegisterBit& CRegister::get_reg(const std::string& regname)
+{
+	RegisterBits::iterator it = m_bits.find(regname);
+	if( it == m_bits.end() )
+	{
+		throw EBitDefNotFound(regname);
+	}
+
+	return it->second;
+}
 
 bool CRegister::set_bit(BitNum bn)
 {
@@ -39,22 +64,23 @@ bool CRegister::not_bit(BitNum bn)
 	return t & _BV(bn) == _BV(bn);
 }
 
-CRegister8::CRegister8(const std::string& name):
-	CRegister(name, RawData())
-{}
-
 CRegister8::CRegister8(const std::string &name,
-	const Data8Bits v):
-	CRegister(name, static_cast<RawData>(v))
+	Address addr):
+	CRegister(name, addr)
 {}
 
-
-CRegister16::CRegister16(const std::string &name):
-	CRegister(name, RawData())
-{}
 
 CRegister16::CRegister16(const std::string &name,
-		const Data16Bits v):
-	CRegister(name, static_cast<RawData>(v))
+		Address addr):
+	CRegister(name, addr)
 {}
 
+CRegisterBit::CRegisterBit():
+	m_name("default name"),
+	m_bitnum(Bit0)
+{}
+
+const std::string& CRegisterBit::name() const
+{
+	return m_name;
+}
