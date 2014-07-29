@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 
 typedef unsigned int BitNum;
 typedef unsigned char Data8Bits;
@@ -40,8 +41,8 @@ class CRegister
 		
 	public:
 		CRegister(const std::string &name);
-		CRegister(const std::string &name, Address&);
-		~CRegister();
+		CRegister(const std::string &name, Address);
+		virtual ~CRegister();
 
 		bool add_bit_def(CRegisterBit*);
 
@@ -50,6 +51,8 @@ class CRegister
 		bool not_bit(BitNum bit);
 
 		std::string name() const;
+
+		friend std::ostream& operator<<(std::ostream&, const CRegister&);
 
 	protected:
 		CRegisterBit* get_reg(const std::string&);

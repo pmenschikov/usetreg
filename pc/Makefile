@@ -1,7 +1,7 @@
 CC=g++
 
 usetreg: main.o serial.o register.o exceptions.o ucontroller.o
-	$(CC) -o usetreg main.o serial.o register.o exceptions.o -lboost_system
+	$(CC) -o usetreg main.o serial.o register.o exceptions.o ucontroller.o -lboost_system
 
 main.o: main.cpp
 	$(CC) -o main.o -c main.cpp

@@ -1,3 +1,4 @@
+#include <iomanip>
 #include "register.h"
 
 #include "exceptions.h"
@@ -11,7 +12,7 @@ CRegister::CRegister(const std::string &name):
 {}
 
 CRegister::CRegister(const std::string &name,
-		             Address& addr):
+		             Address addr):
 	m_name(name),
 	m_address(addr)
 {}
@@ -71,6 +72,18 @@ bool CRegister::not_bit(BitNum bn)
 	RawData t = m_value;
 	m_value ^= _BV(bn);
 	return t & _BV(bn) == _BV(bn);
+}
+
+std::ostream& operator<<(std::ostream& os, const CRegister &reg)
+{
+	os << "Reg(\"";
+	os << reg.m_name;
+	os << "\",0x";
+	os << std::hex;
+	os << reg.m_address;
+	os << std::dec;
+	os << ")";
+	return os;
 }
 
 CRegister8::CRegister8(const std::string &name,

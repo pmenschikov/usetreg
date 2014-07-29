@@ -2,6 +2,7 @@
 #define __UCONTROLLER_H__
 
 #include <map>
+#include <iostream>
 
 #include "register.h"
 
@@ -27,11 +28,14 @@ class CuController
 		bool add_register_bit(CRegister*, CRegisterBit*);
 		bool add_register_bit(const std::string&, CRegisterBit*);
 
+		friend std::ostream& operator<<(std::ostream&, const CuController&);
+
 	protected:
 		typedef std::map<std::string, CRegister*> RegisterMap;
 
 	protected:
 		CRegister* register_by_name(const std::string&);
+		//CRegisterBit* bit_by_name(const std::string&);
 
 	protected:
 		RegisterMap m_registers;

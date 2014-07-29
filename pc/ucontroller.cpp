@@ -44,3 +44,15 @@ CRegister* CuController::register_by_name(const std::string& name)
 
 	return it==m_registers.end() ? NULL:it->second;
 }
+
+std::ostream& operator<<(std::ostream &os, const CuController &cnt)
+{
+	os << "controller: ";
+	os << "Registers: ";
+	CuController::RegisterMap::const_iterator it;
+	for(it=cnt.m_registers.begin(); it!=cnt.m_registers.end(); ++it)
+	{
+		os << *(it->second);
+	}
+	return os;
+}
