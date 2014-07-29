@@ -16,23 +16,32 @@ CRegister::CRegister(const std::string &name,
 	m_address(addr)
 {}
 
+CRegister::~CRegister()
+{
+	RegisterBits::iterator it;
+	for( it=m_bits.begin(); it!=m_bits.end(); ++it)
+	{
+		delete it->second;
+	}
+}
+
 std::string CRegister::name() const
 {
 	return m_name;
 }
 
-bool CRegister::add_bit_def(CRegisterBit bit)
+bool CRegister::add_bit_def(CRegisterBit *bit)
 {
-	if( m_bits.find(bit.name()) != m_bits.end() )
+	if( m_bits.find(bit->name()) != m_bits.end() )
 	{
-		throw EBitAlreadyDefined(bit.name());
+		throw EBitAlreadyDefined(bit->name());
 	}
 
-	m_bits[bit.name()] = bit;
+	m_bits[bit->name()] = bit;
 	return true;
 }
 
-CRegisterBit& CRegister::get_reg(const std::string& regname)
+CRegisterBit* CRegister::get_reg(const std::string& regname)
 {
 	RegisterBits::iterator it = m_bits.find(regname);
 	if( it == m_bits.end() )

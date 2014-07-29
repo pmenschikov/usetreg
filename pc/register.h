@@ -41,8 +41,9 @@ class CRegister
 	public:
 		CRegister(const std::string &name);
 		CRegister(const std::string &name, Address&);
+		~CRegister();
 
-		bool add_bit_def(CRegisterBit);
+		bool add_bit_def(CRegisterBit*);
 
 		bool set_bit(BitNum bit);
 		bool clr_bit(BitNum bit);
@@ -51,10 +52,10 @@ class CRegister
 		std::string name() const;
 
 	protected:
-		CRegisterBit& get_reg(const std::string&);
+		CRegisterBit* get_reg(const std::string&);
 
 	protected:
-		typedef std::map<std::string, CRegisterBit> RegisterBits;
+		typedef std::map<std::string, CRegisterBit*> RegisterBits;
 
 	protected:
 		std::string m_name;
